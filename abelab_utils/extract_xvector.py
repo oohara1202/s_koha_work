@@ -28,9 +28,7 @@ class ExtractXvector:
         wav = wav.astype(np.float32) / amax
         # Freq Norm
         wav = self.audio_norm(torch.from_numpy(wav), sr).to(self._device)
-        # x-vector Embedding
-        embeds = self.classifier.encode_batch(wav).detach().cpu().numpy()[0]
-        # (1, 192) --> (192,)
-        embeds = np.squeeze(embeds)
+        # x-vector Extraction (192)
+        embeds = self.classifier.encode_batch(wav).detach().cpu()[0][0]
 
         return embeds
