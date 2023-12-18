@@ -1,0 +1,2 @@
+https://github.com/Data-Science-kosta/Speech-Emotion-Classification-with-PyTorch#models
+を参考

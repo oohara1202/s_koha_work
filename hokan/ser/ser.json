@@ -1,0 +1,37 @@
+{
+    "train": {
+      "epochs": 200,
+      "batch_size": 64,
+      "num_workers": 8,
+
+      "learning_rate": 0.01,
+      "weight_decay": 1e-3,
+      "momentum": 0.8,
+
+      "seed": 1234,
+      
+      "betas": [0.8, 0.99],
+      "eps": 1e-9,
+      "fp16_run": true,
+      "lr_decay": 0.999875,
+      "segment_size": 8192,
+      "init_lr_ratio": 1,
+      "warmup_epochs": 0
+    },
+    "data": {
+      "training_files":"filelists/jtes/jtes_audio_eid_train_filelist.txt",
+      "test_files":"filelists/jtes/jtes_audio_eid_test_filelist.txt",
+
+      "sampling_rate": 22050,
+      "filter_length": 1024,
+      "hop_length": 256,
+      "win_length": 1024,
+      "n_mel_channels": 80,
+      "mel_fmin": 0.0,
+      "mel_fmax": null,
+
+      "chunk_win_size": 128,
+      "chunk_stride": 64
+    }
+  }
+  
