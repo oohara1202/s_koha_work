@@ -1,4 +1,8 @@
+test.py
 dataset
+*wav/
+exp
+pretrained_models
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
