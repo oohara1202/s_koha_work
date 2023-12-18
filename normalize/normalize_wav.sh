@@ -6,5 +6,5 @@ DST_DIR=./output_wav
 for f in $(cd ${SRC_DIR}; find * -name "*.wav" ); do
     f=$(dirname $f)/$(basename $f .wav)
     sox ${SRC_DIR}/$f.wav ${DST_DIR}/$f.wav norm
-    echo ${SRC_DIR}/$f.wav ${DST_DIR}/$f.wav
+    # echo ${SRC_DIR}/$f.wav ${DST_DIR}/$f.wav
 done
