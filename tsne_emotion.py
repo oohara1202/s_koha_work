@@ -18,7 +18,7 @@ class PlotTSNE:
 
         self.root_dir = 'evaluation_data'
         self.data_dir = os.path.join(self.root_dir, 'analysis_vc')
-        self.exp_dir = 'exp'
+        self.exp_dir = 'exp/tsne'
         self.speaker_list = ['M-student', 'F-student']
         self.emotion_color = {
             'Neutral':'y',
