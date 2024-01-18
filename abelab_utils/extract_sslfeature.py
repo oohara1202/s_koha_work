@@ -30,6 +30,6 @@ class ExtractSSLModelFeature:
         # Feature Extraction
         outputs = self.model(wav, output_hidden_states=True)
 
-        outputs = torch.stack(outputs.get('hidden_states')).squeeze()  # [layer(13), frame(any), feature(768)]
+        outputs = torch.stack(outputs.get('hidden_states')).squeeze().cpu()  # [layer(13), frame(any), feature(768)]
 
         return outputs
