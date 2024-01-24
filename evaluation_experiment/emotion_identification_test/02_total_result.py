@@ -3,6 +3,7 @@ import glob
 import numpy as np
 import logging
 
+from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 
@@ -40,7 +41,7 @@ def main():
     'SSLmodel_F-student_conversion'
     ]
     emotion_list = ['Neutral', 'Happy', 'Sad']
-    emotion2id = {'Neutral': '1', 'Happy': '2', 'Sad': '3'}
+    emotion2id = {'Neutral': 1, 'Happy': 2, 'Sad': 3}
     id2emotion = {v: k for k, v in emotion2id.items()}
 
     log_file = os.path.join(RESULT_DIR, 'result.log')
@@ -70,8 +71,10 @@ def main():
     for answer_file in answer_files:
         answer_list = list()
         with open(answer_file, mode='r', encoding='utf-8') as f:
-            [answer_list.extend(list(l.rstrip())) for l in f.readlines()]  # 一文字ずつが要素のリスト
-
+            lines = [s.rstrip() for s in f.readlines()]
+        for line in lines:
+            for char in line:
+                answer_list.append(int(char))
 
         # 回答の入力ミスのチェック
         if len(condition_order) != len(answer_list):
@@ -83,6 +86,11 @@ def main():
         for emotion, condition, answer in zip(emotion_order, condition_order, answer_list):
             correct_with_condition[f'{condition}_label'].append(emotion)
             correct_with_condition[f'{condition}_answer'].append(id2emotion[answer])
+
+        # 参加者ごとにaccuracy算出
+        accuracy = accuracy_score([emotion2id[emotion] for emotion in emotion_order], answer_list)
+        accuracy_round = np.round(accuracy, 3)
+        logging.info(f'{os.path.splitext(os.path.basename(answer_file))[0]}: {accuracy_round}')
 
     for condition in condition_list:
         logging.info(f'[Condition] {condition}')
