@@ -63,7 +63,7 @@ def generate_tset(sentence):
     speech_dir = os.path.join(INPUT_DIR, sentence)
 
     # 無音秒数 [sec]
-    pause_sec = 0.6
+    pause_sec = 0.8
 
     # sin波の秒数
     sin_sec = 1.0
