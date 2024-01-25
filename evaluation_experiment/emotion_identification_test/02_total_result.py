@@ -67,6 +67,7 @@ def main():
         correct_with_condition[f'{condition}_label'] = list()   # 条件ごとの正解
         correct_with_condition[f'{condition}_answer'] = list()  # 条件ごとの回答
 
+    logging.info('Accuracy per participant:')
     answer_files = sorted(glob.glob(os.path.join(RESULT_DIR, 'answer', '*.txt')))
     for answer_file in answer_files:
         answer_list = list()
