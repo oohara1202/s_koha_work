@@ -78,7 +78,7 @@ def _plot(condition, value_dict):
     # 目盛り数値
     plt.xticks(
         np.arange(xmin, xmax+line_width, line_width),
-        fontsize = 12
+        fontsize = 8
     )
 
     # 枠線を消す
