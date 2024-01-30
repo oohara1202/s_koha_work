@@ -1,8 +1,7 @@
-# vcによる話者性の変化の確認
+# x-vectorを用いた変換音声の話者性の可視化
 import os
 import glob
 import pickle
-import shutil
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -12,13 +11,15 @@ from sklearn.manifold import TSNE
 
 from abelab_utils.extract_xvector import ExtractXvector
 
-class PlotTSNE:
+class PlotTSNE_Speaker:
     def __init__(self):
-        self.tsne = TSNE(n_components=2, random_state=1234)
+        self.tsne = TSNE(n_components=2, random_state=0)
 
-        self.root_dir = 'evaluation_data'
-        self.data_dir = os.path.join(self.root_dir, 'analysis_vc')
+        self.data_dir = 'evaluation_data/analysis_vc'
         self.exp_dir = 'exp/tsne'
+        self.dump_dir = os.path.join(self.exp_dir, 'dump')
+        os.makedirs(self.dump_dir, exist_ok=True)
+
         self.speaker_list = ['Teacher', 'M-student', 'F-student', 'M-student_converted', 'F-student_converted']
         self.speaker_color = {
             'Teacher': 'g',
@@ -27,37 +28,37 @@ class PlotTSNE:
             'M-student_converted': 'c',
             'F-student_converted': 'm'
         }
-        
-        self.extract_xvector = ExtractXvector()
 
     def run(self):
         xvector_list = list()
         speaker_hue = list()
 
         for speaker in self.speaker_list:
-            xvector_path = os.path.join(self.data_dir, f'{speaker}_xvector.pkl')
+            xvector_path = os.path.join(self.dump_dir, f'{speaker}_xvector.pkl')
 
             # x-vectorが保存されているなら読み込む
             if os.path.exists(xvector_path):
                 with open(xvector_path, 'rb') as f:
-                    xvector_speaker = pickle.load(f)
+                    xvector_per_spk = pickle.load(f)
 
             # 保存されていないなら抽出後に保存
             else:
-                xvector_speaker = dict()
+                extract_xvector = ExtractXvector()
+
+                xvector_per_spk = dict()
                 wavfiles = glob.glob(os.path.join(self.data_dir, speaker, '*.wav'))
                 for wavfile in tqdm(wavfiles):
                     filename = os.path.basename(wavfile)
                     # ファイル名をキーにx-vector格納
-                    xvector_speaker[filename] = self.extract_xvector(wavfile)
+                    xvector_per_spk[filename] = extract_xvector(wavfile)
                 # 話者ごとのx-vectorを保存
                 with open(xvector_path, 'wb') as f:
-                    pickle.dump(xvector_speaker, f)
+                    pickle.dump(xvector_per_spk, f)
 
-            print(f'{speaker}: {len(xvector_speaker)} utterances')
+            print(f'{speaker}: {len(xvector_per_spk)} utterances')
 
-            xvector_list.extend(xvector_speaker.values())
-            speaker_hue.extend([speaker]*len(xvector_speaker))
+            xvector_list.extend(xvector_per_spk.values())
+            speaker_hue.extend([speaker]*len(xvector_per_spk))
 
         xvector_stack = np.stack(xvector_list)
 
@@ -85,21 +86,23 @@ class PlotTSNE:
             length=0,                            # 目盛の長さをゼロ
             labelbottom=False, labelleft=False,  # 目盛のラベルを削除
         )
+
+        fname = 'tsne_speaker'
         # 検証用にpng
         plt.savefig(
-            os.path.join(self.exp_dir, 'tsne_speaker.png'),
+            os.path.join(self.exp_dir, f'{fname}.png'),
             bbox_inches='tight',
         )
         # 本番用にpdf，transparent=Trueは動いてなさそう
         plt.savefig(
-            os.path.join(self.exp_dir, 'tsne_speaker.pdf'),
+            os.path.join(self.exp_dir, f'{fname}.pdf'),
             bbox_inches='tight',
             transparent=True,
         )
 
 def main():
-    tsne = PlotTSNE()
-    tsne.run()
+    tsne_speaker = PlotTSNE_Speaker()
+    tsne_speaker.run()
 
 if __name__ == '__main__':
     main()
