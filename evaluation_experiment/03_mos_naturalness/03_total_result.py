@@ -6,7 +6,7 @@ import itertools
 import scipy
 import math
 
-ROOT_DIR = 'evaluation_experiment/mos_naturalness'
+ROOT_DIR = 'evaluation_experiment/03_mos_naturalness'
 LABEL_DIR = os.path.join(ROOT_DIR, 'test_set')
 RESULT_DIR = os.path.join(ROOT_DIR, 'result')
 

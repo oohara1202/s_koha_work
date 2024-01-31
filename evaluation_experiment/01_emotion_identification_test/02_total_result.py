@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 
-ROOT_DIR = 'evaluation_experiment/emotion_identification_test'
+ROOT_DIR = 'evaluation_experiment/01_emotion_identification_test'
 LABEL_DIR = os.path.join(ROOT_DIR, 'test_set')
 RESULT_DIR = os.path.join(ROOT_DIR, 'result')
 

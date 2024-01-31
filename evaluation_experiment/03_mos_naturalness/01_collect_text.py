@@ -3,7 +3,7 @@ import os
 import glob
 
 STUDIES_DIR = 'dataset/STUDIES_22k'
-OUT_DIR = 'evaluation_experiment/mos_naturalness/text_option'
+OUT_DIR = 'evaluation_experiment/03_mos_naturalness/text_option'
 
 TEST_SUBSET = ['LD01', 'LD02', 'LD03', 'SD01', 'SD06', 'SD07', 'SD12']
 

@@ -5,8 +5,8 @@ import random
 import soundfile as sf
 import itertools
 
-INPUT_DIR = 'evaluation_experiment/paired_comparison_experiment/speech_set'
-OUTPUT_DIR = 'evaluation_experiment/paired_comparison_experiment/out'
+INPUT_DIR = 'evaluation_experiment/02_paired_comparison_experiment/speech_set'
+OUTPUT_DIR = 'evaluation_experiment/02_paired_comparison_experiment/out'
 
 def make_pause(sec, fs):
     '''

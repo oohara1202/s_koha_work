@@ -4,8 +4,8 @@ import numpy as np
 import random
 import soundfile as sf
 
-INPUT_DIR = 'evaluation_experiment/emotion_identification_test/speech_set'
-OUTPUT_DIR = 'evaluation_experiment/emotion_identification_test/out'
+INPUT_DIR = 'evaluation_experiment/01_emotion_identification_test/speech_set'
+OUTPUT_DIR = 'evaluation_experiment/01_emotion_identification_test/out'
 
 emotion_list = ['Happy', 'Neutral', 'Sad']
 condition_dict = {

@@ -3,7 +3,7 @@ import glob
 import numpy as np
 import logging
 
-ROOT_DIR = 'evaluation_experiment/paired_comparison_experiment'
+ROOT_DIR = 'evaluation_experiment/02_paired_comparison_experiment'
 LABEL_DIR = os.path.join(ROOT_DIR, 'test_set')
 RESULT_DIR = os.path.join(ROOT_DIR, 'result')
 

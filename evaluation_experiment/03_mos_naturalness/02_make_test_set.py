@@ -4,8 +4,8 @@ import numpy as np
 import random
 import soundfile as sf
 
-INPUT_DIR = 'evaluation_experiment/mos_naturalness/speech_set'
-OUTPUT_DIR = 'evaluation_experiment/mos_naturalness/out'
+INPUT_DIR = 'evaluation_experiment/03_mos_naturalness/speech_set'
+OUTPUT_DIR = 'evaluation_experiment/03_mos_naturalness/out'
 
 condition_dict = {
     'Ground_Truth': 'Ground_Truth',

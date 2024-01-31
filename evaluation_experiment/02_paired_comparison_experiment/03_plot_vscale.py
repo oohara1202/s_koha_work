@@ -35,7 +35,7 @@ filename2hue = {
     'text2_weak': 'Proposed with Weak Emotion'
 }
 
-ROOT_DIR = 'evaluation_experiment/paired_comparison_experiment'
+ROOT_DIR = 'evaluation_experiment/02_paired_comparison_experiment'
 RESULT_DIR = os.path.join(ROOT_DIR, 'result')
 
 def _plot(condition, value_dict):
