@@ -45,7 +45,7 @@ def _plot(condition, value_dict):
         filename_list.append(k)
         value_list.append(v)
 
-    plt.figure(figsize=(10, 0.5))
+    plt.figure(figsize=(10, 0.75))
 
     xmin, xmax= -3.5, 3.5 # 数直線の最小値，最大値
 
@@ -54,7 +54,8 @@ def _plot(condition, value_dict):
         y = 0,
         xmin = xmin,
         xmax = xmax,
-        color = 'k'
+        color = 'k',
+        zorder = 0
     )  
 
     line_width = 1.0  # 目盛り数値の刻み幅
@@ -64,7 +65,8 @@ def _plot(condition, value_dict):
         x = np.arange(xmin, xmax+line_width, line_width),
         ymin = -0.1,
         ymax = 0.1,
-        color = 'k'
+        color = 'k',
+        zorder = 0
     )
 
     # 目盛り線小
@@ -72,13 +74,14 @@ def _plot(condition, value_dict):
         x = np.delete(np.arange(xmin, xmax+line_width, line_width/2), -1),
         ymin = -0.05,
         ymax = 0.05,
-        color = 'k'
+        color = 'k',
+        zorder = 0
     )
 
     # 目盛り数値
     plt.xticks(
         np.arange(xmin, xmax+line_width, line_width),
-        fontsize = 8
+        fontsize = 9
     )
 
     # 枠線を消す
@@ -97,25 +100,27 @@ def _plot(condition, value_dict):
     label_collection = list()
     for filename, value in zip(filename_list, value_list):
         # スーパーウルトラハードコーディングでマーカを設定
-        linewidths = None
         ec = None
+        linewidths = None
+        s = 400
         if '_et' in filename:
             c = 'green'
             marker = 'o'
             y = 0.0
+            s = s * 1.5
         elif 'strong' in filename:
-            y = 0.02
             marker = ','
+            y = 0.01
+            s = s * 1.1
             if 'gt' in filename:
                 c = 'w'
                 ec = 'red'
                 linewidths = 2
             else:
                 c = 'red'
-                marker = ','
         elif 'weak' in filename:
-            y = -0.02
             marker = 'D'
+            y = -0.01
             if 'gt' in filename:
                 c = 'w'
                 ec = 'blue'
@@ -124,6 +129,7 @@ def _plot(condition, value_dict):
                 c = 'blue'
             
         # 凡例のウルトラ対処療法
+        # 一度出てきたものを出さない
         if filename2hue[filename] not in label_collection:
             label = filename2hue[filename]
             label_collection.append(label)
@@ -133,18 +139,40 @@ def _plot(condition, value_dict):
         plt.scatter(
             x = value,
             y = y,
-            s = 200,
+            s = s,
             label = label,
             c = c,
             marker = marker,
             linewidths=linewidths,
             ec=ec,
-            alpha = 0.8
+            alpha = 0.8,
+            zorder = 9
+        )
+
+        # 中に番号書きたいな
+        if 'gt_' not in filename:
+            if '1' in filename:
+                num = '$\mathbf{1}$'
+            else:
+                num = '$\mathbf{2}$'
+        else:
+            continue
+
+        plt.scatter(
+            x = value-0.01,
+            y = y,
+            s = 200,
+            label = None,
+            c = 'w',
+            marker = num,
+            linewidths = 0.5,
+            ec = 'k',
+            zorder = 9
         )
 
     plt.legend(
         bbox_to_anchor=(0.675, -0.75),  # 凡例の位置
-        markerscale = 0.70
+        markerscale = 0.425
     )
 
     # 検証用にpng
@@ -155,6 +183,12 @@ def _plot(condition, value_dict):
     # 本番用にpdf，transparent=Trueは動いてなさそう
     plt.savefig(
         os.path.join(RESULT_DIR, f'vscale_{condition}.pdf'),
+        bbox_inches='tight',
+        transparent=True,
+    )
+    # パワポで追記するためのsvg
+    plt.savefig(
+        os.path.join(RESULT_DIR, f'vscale_{condition}.svg'),
         bbox_inches='tight',
         transparent=True,
     )

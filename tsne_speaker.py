@@ -21,13 +21,22 @@ class PlotTSNE_Speaker:
         os.makedirs(self.dump_dir, exist_ok=True)
 
         self.speaker_list = ['Teacher', 'M-student', 'F-student', 'M-student_converted', 'F-student_converted']
+        self.speaker_name = {
+            'Teacher': 'Teacher',
+            'M-student': 'M-student',
+            'F-student': 'F-student',
+            'M-student_converted': 'M-student_conversion',
+            'F-student_converted': 'F-student_conversion'
+        }
+        self.speaker_order = ['Teacher', 'M-student', 'F-student', 'M-student_conversion', 'F-student_conversion']
         self.speaker_color = {
             'Teacher': 'g',
             'M-student': 'b',
             'F-student': 'r',
-            'M-student_converted': 'c',
-            'F-student_converted': 'm'
+            'M-student_conversion': 'c',
+            'F-student_conversion': 'm'
         }
+
 
     def run(self):
         xvector_list = list()
@@ -58,7 +67,7 @@ class PlotTSNE_Speaker:
             print(f'{speaker}: {len(xvector_per_spk)} utterances')
 
             xvector_list.extend(xvector_per_spk.values())
-            speaker_hue.extend([speaker]*len(xvector_per_spk))
+            speaker_hue.extend([self.speaker_name[speaker]]*len(xvector_per_spk))
 
         xvector_stack = np.stack(xvector_list)
 
@@ -70,7 +79,7 @@ class PlotTSNE_Speaker:
             x=xvector_reduced[:, 0],
             y=xvector_reduced[:, 1],
             hue=speaker_hue,
-            hue_order=self.speaker_list,  # 凡例の順番
+            hue_order=self.speaker_order,  # 凡例の順番
             palette=self.speaker_color,
             linewidth=0,  # 枠線を消す
         )
@@ -96,6 +105,12 @@ class PlotTSNE_Speaker:
         # 本番用にpdf，transparent=Trueは動いてなさそう
         plt.savefig(
             os.path.join(self.exp_dir, f'{fname}.pdf'),
+            bbox_inches='tight',
+            transparent=True,
+        )
+        # svg
+        plt.savefig(
+            os.path.join(self.exp_dir, f'{fname}.svg'),
             bbox_inches='tight',
             transparent=True,
         )

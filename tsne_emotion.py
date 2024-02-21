@@ -123,7 +123,7 @@ class PlotTSNE_Emotion:
         emotion_hue = [list() for i in range(2)]
 
         gt_conv = [speaker, f'{speaker}_converted']
-        subplot_title = ['Ground Truth', 'Conversion']
+        subplot_title = ['Natural', 'Conversion']
 
         fig, axes = plt.subplots(1, 2, figsize=(10, 5))
 
@@ -168,6 +168,12 @@ class PlotTSNE_Emotion:
         # 本番用にpdf，transparent=Trueは動いてなさそう
         plt.savefig(
             os.path.join(self.exp_dir, f'{fname}.pdf'),
+            bbox_inches='tight',
+            transparent=True,
+        )
+        # svg
+        plt.savefig(
+            os.path.join(self.exp_dir, f'{fname}.svg'),
             bbox_inches='tight',
             transparent=True,
         )
